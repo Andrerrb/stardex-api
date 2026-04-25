@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\PeopleController;
 
-Route::get('/people', function () {
-    $response = Http::withoutVerifying()->get('https://swapi.info/api/people');
-
-    return $response->json();
-});
+Route::get('/people', [PeopleController::class, 'index']);
