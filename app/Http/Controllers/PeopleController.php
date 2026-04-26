@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
+use App\Services\SwapiService;
 
 class PeopleController extends Controller
 {
-    public function index()
+    public function index(SwapiService $swapiService)
     {
-        $response = Http::withoutVerifying()->get('https://swapi.info/api/people');
+        $people = $swapiService->getPeople();
 
-        return response()->json($response->json());
+        return response()->json($people);
+    }
+
+    public function show($id, SwapiService $swapiService)
+    {
+        $person = $swapiService->getPersonById($id);
+
+        return response()->json($person);
     }
 }
