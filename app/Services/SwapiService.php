@@ -31,11 +31,16 @@ class SwapiService
                 ->timeout(10)
                 ->get("https://swapi.info/api/people/{$id}");
 
-            if ($response->failed()) {
-                return null;
+            if ($response->status() === 404) {
+                return 'not_found';
+            }
+
+            if ($response->failed()){
+                return 'api_error';
             }
 
             return $response->json();
+
         } catch (ConnectionException $e) {
             return null;
         }
