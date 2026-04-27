@@ -3,21 +3,41 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\ConnectionException;
 
 class SwapiService
 {
     public function getPeople()
     {
-        $response = Http::withoutVerifying()->get('https://swapi.info/api/people');
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get('https://swapi.info/api/people');
 
-        return $response->json();
+            if ($response->failed()) {
+                return null;
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return null;
+        }
     }
 
     public function getPersonById($id)
     {
-        $response = Http::withoutVerifying()->get("https://swapi.info/api/people/{$id}");
-        
-        return $response->json();
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get("https://swapi.info/api/people/{$id}");
+
+            if ($response->failed()) {
+                return null;
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return null;
+        }
     }
 }
-

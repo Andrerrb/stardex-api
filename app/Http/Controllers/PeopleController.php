@@ -17,6 +17,11 @@ class PeopleController extends Controller
     {
         $person = $swapiService->getPersonById($id);
 
+        if(!$person){
+            return response()->json([
+                'error'=> 'Person not found'
+            ],404);
+        }
         return response()->json($person);
     }
 }
