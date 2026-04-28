@@ -10,55 +10,58 @@ class PeopleController extends Controller
     {
         $people = $swapiService->getPeople();
 
-        $formattedPeople = [];
-
-        foreach($people as $person){
-            $formattedPeople[] = $this->formatPerson($person);
+        if ($people === 'api_error') {
+            return response()->json([
+                'success' => false,
+                'error' => 'External API unavailable'
+            ], 503);
         }
-        
+
+        $formattedPeople = array_map(
+            fn($person) => $this->formatPerson($person),
+            $people
+        );
+
         return response()->json([
             'success' => true,
             'data' => $formattedPeople
-        ]);
+        ], 200, [], JSON_PRETTY_PRINT);
     }
 
     public function show($id, SwapiService $swapiService)
     {
         $person = $swapiService->getPersonById($id);
 
-        if($person === 'not_found'){
+        if ($person === 'not_found') {
             return response()->json([
+                'success' => false,
                 'error' => 'Person not found'
-            ],404);
+            ], 404);
         }
-        
-        if($person === 'api_error'){
+
+        if ($person === 'api_error') {
             return response()->json([
+                'success' => false,
                 'error' => 'External API unavailable'
             ], 503);
-
         }
-
-
 
         $formattedPerson = $this->formatPerson($person);
 
         return response()->json([
             'success' => true,
             'data' => $formattedPerson
-    ]);
-
+        ],200, [], JSON_PRETTY_PRINT);
     }
 
     private function formatPerson($person)
     {
-        return[
+        return [
             'name' => $person['name'],
             'height' => $person['height'],
             'mass' => $person['mass'],
-            'birth_year' =>$person['birth_year'],
+            'birth_year' => $person['birth_year'],
             'gender' => $person['gender'],
         ];
     }
-
 }
