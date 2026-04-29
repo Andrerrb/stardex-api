@@ -7,45 +7,9 @@ use Illuminate\Http\Client\ConnectionException;
 
 class SwapiService
 {
-
-    public function getPlanets()
-    {
-        try {
-            $response = Http::withoutVerifying()
-                ->timeout(10)
-                ->get('https://swapi.info/api/planets');
-
-            if ($response->failed()) {
-                return 'api_error';
-            }
-
-            return $response->json();
-        } catch (ConnectionException $e){
-            return 'api_error';
-        }
-    }
-
-    public function getPlanetById($id)
-    {
-        try {
-            $response = Http::withoutVerifying()
-                ->timeout(10)
-                ->get("https://swapi.info/api/planets/{$id}");
-
-            if ($response->status() === 404) {
-                return 'not_found';
-            }
-
-            if ($response->failed()){
-                return 'api_error';
-            }
-
-            return $response->json();
-
-        } catch (ConnectionException $e) {
-            return 'api_error';
-        }
-    }
+    // =========================
+    // GET ALL
+    // =========================
 
     public function getPeople()
     {
@@ -64,6 +28,27 @@ class SwapiService
         }
     }
 
+    public function getPlanets()
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get('https://swapi.info/api/planets');
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
+    // =========================
+    // GET BY ID
+    // =========================
+
     public function getPersonById($id)
     {
         try {
@@ -75,7 +60,29 @@ class SwapiService
                 return 'not_found';
             }
 
-            if ($response->failed()){
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
+    public function getPlanetById($id)
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get("https://swapi.info/api/planets/{$id}");
+
+            if ($response->status() === 404) {
+                return 'not_found';
+            }
+
+            if ($response->failed()) {
                 return 'api_error';
             }
 

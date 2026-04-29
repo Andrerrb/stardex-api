@@ -6,6 +6,10 @@ use App\Services\SwapiService;
 
 class PeopleController extends Controller
 {
+    // =========================
+    // GET ALL
+    // =========================
+
     public function index(SwapiService $swapiService)
     {
         $people = $swapiService->getPeople();
@@ -27,6 +31,10 @@ class PeopleController extends Controller
             'data' => $formattedPeople
         ], 200, [], JSON_PRETTY_PRINT);
     }
+
+    // =========================
+    // GET BY ID
+    // =========================
 
     public function show($id, SwapiService $swapiService)
     {
@@ -51,8 +59,12 @@ class PeopleController extends Controller
         return response()->json([
             'success' => true,
             'data' => $formattedPerson
-        ],200, [], JSON_PRETTY_PRINT);
+        ], 200, [], JSON_PRETTY_PRINT);
     }
+
+    // =========================
+    // HELPERS
+    // =========================
 
     private function formatPerson($person)
     {
