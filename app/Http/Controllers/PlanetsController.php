@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\SwapiService;
 
-class PlanetsController extends Controller
-{
+class PlanetsController extends Controller {
     // =========================
     // GET ALL
     // =========================
@@ -66,7 +65,7 @@ class PlanetsController extends Controller
     // HELPERS
     // =========================
 
-    private function formatPlanet($planet)
+    private function formatPlanet(array $planet): array
     {
         return [
             'name' => $planet['name'],

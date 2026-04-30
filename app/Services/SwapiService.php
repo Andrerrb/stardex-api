@@ -11,6 +11,23 @@ class SwapiService
     // GET ALL
     // =========================
 
+        public function getVehicles()
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get('https://swapi.info/api/vehicles');
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
     public function getPeople()
     {
         try {
@@ -48,6 +65,30 @@ class SwapiService
     // =========================
     // GET BY ID
     // =========================
+
+
+     public function getVehicleById($id)
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get("https://swapi.info/api/vehicles/{$id}");
+
+            if ($response->status() === 404) {
+                return 'not_found';
+            }
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
 
     public function getPersonById($id)
     {

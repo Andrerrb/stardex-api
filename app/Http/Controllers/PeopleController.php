@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\SwapiService;
 
-class PeopleController extends Controller
-{
+class PeopleController extends Controller {
+    
     // =========================
     // GET ALL
     // =========================
@@ -66,7 +66,7 @@ class PeopleController extends Controller
     // HELPERS
     // =========================
 
-    private function formatPerson($person)
+    private function formatPerson(array $person): array
     {
         return [
             'name' => $person['name'],
