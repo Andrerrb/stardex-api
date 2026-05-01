@@ -28,6 +28,23 @@ class SwapiService
         }
     }
 
+            public function getStarships()
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get('https://swapi.info/api/starships');
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
     public function getPeople()
     {
         try {
@@ -68,6 +85,28 @@ class SwapiService
 
 
      public function getVehicleById($id)
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get("https://swapi.info/api/vehicles/{$id}");
+
+            if ($response->status() === 404) {
+                return 'not_found';
+            }
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
+         public function getStarshipById($id)
     {
         try {
             $response = Http::withoutVerifying()
