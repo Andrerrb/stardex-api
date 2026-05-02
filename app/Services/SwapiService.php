@@ -28,6 +28,24 @@ class SwapiService
         }
     }
 
+            public function getFilms()
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get('https://swapi.info/api/films');
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
+
             public function getStarships()
     {
         try {
@@ -105,6 +123,29 @@ class SwapiService
             return 'api_error';
         }
     }
+
+         public function getFilmsById($id)
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get("https://swapi.info/api/films/{$id}");
+
+            if ($response->status() === 404) {
+                return 'not_found';
+            }
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
 
          public function getStarshipById($id)
     {
