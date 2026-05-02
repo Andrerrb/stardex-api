@@ -6,6 +6,7 @@ use App\Http\Controllers\PlanetsController;
 use App\Http\Controllers\StarshipsController;
 use App\Http\Controllers\VehiclesController;
 use App\Http\Controllers\FilmsController;
+use App\Http\Controllers\SpeciesController;
 
 Route::get('/people', [PeopleController::class, 'index']);
 Route::get('/people/{id}', [PeopleController::class, 'show']);
@@ -21,3 +22,6 @@ Route::get('/starships/{id}', [StarshipsController::class,'show']);
 
 Route::get('/films', [FilmsController::class, 'index']);
 Route::get('/films/{id}', [FilmsController::class,'show']);
+
+Route::get('/species', [SpeciesController::class, 'index']);
+Route::get('/species/{id}', [SpeciesController::class,'show']);

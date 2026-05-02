@@ -11,6 +11,23 @@ class SwapiService
     // GET ALL
     // =========================
 
+            public function getSpecies()
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get('https://swapi.info/api/species');
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
         public function getVehicles()
     {
         try {
@@ -123,6 +140,29 @@ class SwapiService
             return 'api_error';
         }
     }
+
+         public function getSpeciesById($id)
+    {
+        try {
+            $response = Http::withoutVerifying()
+                ->timeout(10)
+                ->get("https://swapi.info/api/species/{$id}");
+
+            if ($response->status() === 404) {
+                return 'not_found';
+            }
+
+            if ($response->failed()) {
+                return 'api_error';
+            }
+
+            return $response->json();
+
+        } catch (ConnectionException $e) {
+            return 'api_error';
+        }
+    }
+
 
          public function getFilmsById($id)
     {
